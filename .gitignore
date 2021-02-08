@@ -1,0 +1,19 @@
+.env
+.netlify
+deploy
+public/
+resources/
+node_modules/
+
+# Hugo default output directory
+/public
+
+## OS Files
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# OSX
+.DS_Store
