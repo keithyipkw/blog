@@ -1,17 +1,24 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
 const axiomTailwindConfig = require('./themes/axiom/tailwind.config.js');
-
-// Unset the safelist, already included in Theme.
-axiomTailwindConfig.purge.options.safelist = [];
 
 module.exports = {
   presets: [
     axiomTailwindConfig
   ],
+  purge: {
+    enabled: true,
+    layers: axiomTailwindConfig.purge.layers,
+    content: ['./*(layouts|content|data|static)/**/*.*(html|toml|md)', './themes/axiom/*(layouts|content|data|static)/**/*.*(html|toml|md)'],
+    options: {
+      safelist: ['font-content-serif', ...axiomTailwindConfig.purge.options.safelist]
+    }
+  },
   theme: {
     extend: {
-      // Example: How to add a custom font family
       fontFamily: {
-        'content-custom': ['Custom Font', 'sans-serif'],
+        'content-sans': ['Noto Sans', ...defaultTheme.fontFamily.sans],
+        'content-serif': ['Noto Serif', ...defaultTheme.fontFamily.serif],
+        'content-title': ['Noto Sans', ...defaultTheme.fontFamily.sans],
       },
     },
   },

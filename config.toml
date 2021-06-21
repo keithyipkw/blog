@@ -1,6 +1,6 @@
 baseURL = "https://example.com"
 
-title = "Title"
+title = "STEM"
 languageCode = "en-us"
 defaultContentLanguage = "en"
 
@@ -19,7 +19,6 @@ posts = "/:filename"
 
 [params]
 mainSections = ["posts"]
-copyrightYear = 2021
 # Go Reference time: Mon Jan 2 15:04:05 MST 2006
 dateFormat = "Jan 2, 2006 3:04PM"
 highlight = "dark"
@@ -53,8 +52,8 @@ facebookPixel = ""
 disqusShortname = ""
 
 [params.logo]
-inline = true
-path = "image/brand/logo.svg"
+inline = false
+path = "image/brand/logo.png"
 
 [params.image]
 width = "2048"
@@ -124,36 +123,15 @@ tabWidth = 2
 # lineNos = true
 # lineNumbersInTable = false
 
-[menu]
-[[menu.main]]
-url = "/posts/"
-name = "Posts"
-weight = 1
-
-[[menu.main]]
-url = "/home/"
-name = "Home"
-weight = 2
-
-[[menu.foot]]
-url = "/posts/"
-name = "Posts"
-weight = 1
-
 [[menu.foot]]
 url = "/about/"
 name = "About"
 weight = 2
 
 [[menu.foot]]
-url = "/contact/"
-name = "Contact"
+url = "/copyright/"
+name = "Copyright"
 weight = 3
-
-[[menu.foot]]
-url = "/privacy/"
-name = "Privacy"
-weight = 4
 
 [languages]
 [languages."en"]

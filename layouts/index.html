@@ -1,0 +1,28 @@
+{{ define "main" }}
+{{ $title := .Title | default (T .Section .) | default .Section | humanize -}}
+{{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+{{ $page := .Paginate (where $pages "Params.hidden" "ne" true) }}
+<div class="default-single">
+  <div class="ax-content ax-l-o">
+    <div class="ax-l-i max-w-680">
+      {{ if not $page.HasPrev }}
+      {{- with .Content }}
+      <article class="cdata mt-8">
+        {{ . }}
+      </article>
+      {{- end }}
+
+      {{ partial "term-cloud" (dict "Site" $.Site "Page" . "count" true) }}
+      {{ end }}
+
+      {{- range .Paginator.Pages }}
+      <div class="mt-8">
+        {{ .Render "summary" }}
+      </div>
+      {{- end }}
+      {{- partial "paginator" . -}}
+      {{- partial "google-adsense-ad-slot" . }}
+    </div>
+  </div>
+</div>
+{{ end }}
