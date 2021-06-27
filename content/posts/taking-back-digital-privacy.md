@@ -1,14 +1,14 @@
 +++
-date = "2021-04-24T13:30:00Z"
+date = "2021-06-27T11:36:00Z"
 title = "A Case Study of Taking Back Digital Privacy"
 tags = ["technology", "privacy"]
 +++
 
-This article is about a case in which a person taking back their digital privacy. It may help you if you or your friends are in a similar situation. However, you should seriously consider the possibility that the possessive persons would physically harm others when they are denied.
+This article is a case of helping my friend taking back their digital privacy. They are non-technical and lived together with their adversary. This article may help you if you are in a similar situation. However, you should seriously consider the possibility that the possessive persons would physically harm others when they are denied.
 
 # Background
 
-Alex lived with Billy. Alex was quite a tech person but Billy was totally not. It was natural for Billy to rely on Alex on all technological problems. Alex set up all Billy's digital accounts and smartphones. It seemed to be fine until Alex's possession over Billy surfaced. Alex spied on Billy's emails, Whatsapp, and iCloud photos.
+Alex lived with Billy. Alex was quite a technical person but Billy was totally not. It was natural for Billy to rely on Alex on all technological problems. Alex set up all Billy's digital accounts and smartphones. It seemed to be fine until Alex's possession over Billy surfaced. Alex spied on Billy's emails, Whatsapp, and iCloud photos.
 
 Billy decided to take back their privacy. Billy and their friend, friend C, started to do so but encountered a roadblock. They consulted me. During the discussion, I discovered that their original plan would not work. Alex could regain control in no time. It was actually not straight forward for Billy.
 
