@@ -1,12 +1,4 @@
 {
-  "private": true,
-  "name": "axiom-example",
-  "version": "0.4.0",
-  "description": "Example website project for the Axiom Hugo theme.",
-  "author": "Jhaura Wachsman <jw@jhaurawachsman.com> (https://www.jhaurawachsman.com/)",
-  "homepage": "https://www.axiomtheme.com/",
-  "repository": "github:marketempower/axiom-example.git",
-  "license": "CC-BY-SA-4.0",
   "scripts": {
     "hugo:prd": "hugo -e production -v --i18n-warnings --minify --gc --cleanDestinationDir",
     "hugo:dev": "hugo -e development --config config.toml,config.dev.toml -v --i18n-warnings --gc --cleanDestinationDir --buildDrafts --buildFuture",
