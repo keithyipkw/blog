@@ -1,12 +1,8 @@
 .env
 .netlify
 deploy
-public/
 resources/
 node_modules/
-
-# Hugo default output directory
-/public
 
 ## OS Files
 # Windows

@@ -1,4 +1,4 @@
-baseURL = "https://example.com"
+baseURL = "https://keithyipkw.github.io/blog/"
 
 title = "STEM"
 languageCode = "en-us"
@@ -13,6 +13,7 @@ rssLimit = 100
 enableEmoji = true
 enableRobotsTXT = true
 pluralizelisttitles = false
+publishDir = "docs"
 
 [permalinks]
 posts = "/:filename"
@@ -39,7 +40,7 @@ youtube = ""
 footer = []
 
 [params.services]
-googleAnalyticsId = ""
+googleAnalyticsId = "G-5Y5GJS2SYG"
 googleTagManagerId = ""
 googleAdsId = ""
 googleAdsenseId = ""
