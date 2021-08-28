@@ -44,7 +44,9 @@
   & > p,
   & > ol,
   & > ul,
-  & > blockquote p {
+  & > blockquote p,
+  & > figure,
+  & > details {
     @apply font-content-sans font-normal text-xl;
   }
 

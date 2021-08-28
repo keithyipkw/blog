@@ -16,6 +16,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        'sans': ['Noto Sans', ...defaultTheme.fontFamily.sans],
+        'serif': ['Noto Serif', ...defaultTheme.fontFamily.serif],
+        'mono': ['Noto Mono', ...defaultTheme.fontFamily.mono],
+        'basic-sans': ['Noto Sans', ...defaultTheme.fontFamily.sans],
         'content-sans': ['Noto Sans', ...defaultTheme.fontFamily.sans],
         'content-serif': ['Noto Serif', ...defaultTheme.fontFamily.serif],
         'content-title': ['Noto Sans', ...defaultTheme.fontFamily.sans],
