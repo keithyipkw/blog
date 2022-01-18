@@ -45,7 +45,6 @@
   & > ol,
   & > ul,
   & > blockquote p,
-  & > figure,
   & > details {
     @apply font-content-sans font-normal text-xl;
   }
@@ -181,8 +180,9 @@
 
   /* <table> */
   & > table,
-  & > .table-responsive > table {
-    @apply w-full max-w-full;
+  & > .table-responsive > table,
+  & > figure table {
+    @apply mx-auto max-w-full text-xl;
 
     & th {
       @apply font-semibold;
@@ -190,7 +190,7 @@
     }
 
     & th, & td {
-      @apply p-2 align-top border-t border-raven-100;
+      @apply px-4 py-1 align-top border-t border-raven-100;
     }
 
     & thead th {
@@ -199,6 +199,15 @@
 
     & tbody + tbody {
       @apply border-t-2 border-raven-100;
+    }
+  }
+
+  /* figure */
+  & > figure {
+    @apply font-content-sans font-normal text-xl;
+
+    & > figcaption {
+      @apply mt-2 text-center text-raven-500;
     }
   }
 
