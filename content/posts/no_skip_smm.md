@@ -1,5 +1,6 @@
 +++
 date = "2022-01-17T13:03:00Z"
+lastmod = "2022-03-14T14:20:00Z"
 title = "How Difficult is 1000 Endless Expert Levels Without Skipping in Super Mario Marker 2?"
 tags = ["statistics"]
 mathjax = true
@@ -80,9 +81,9 @@ It is more convenient to organize the calculation in the following matrix form. 
 For the actual problem, let 
 
 - $ s_k $ be a 100-dimensional row vector for the states after finishing $ k $ levels,
-- $ P_s(k,\textcolor{red}{♥}=n) $ be the probability of the state after finishing $ k \in \{0,1,2,\ldots\} $ levels and having $ n \in \{0,1,2,\ldots,99\} $ lives,
+- $ P_s(k,\textcolor{red}{♥}=n) $ be the probability of the state after finishing $ k \in \set{0,1,2,\ldots} $ levels and having $ n \in \set{0,1,2,\ldots,99} $ lives,
 - $ T $ be a 100×100 right stochastic matrix,
-- $ P_t(\textcolor{red}{♥}=n,\Delta\textcolor{red}{♥}=m) $ be the probability of transiting from having $ n $ lives to $ (n+m) \in \{0,1,2,\ldots,99\} $ lives.
+- $ P_t(\textcolor{red}{♥}=n,\Delta\textcolor{red}{♥}=m) $ be the probability of transiting from having $ n $ lives to $ (n+m) \in \set{0,1,2,\ldots,99} $ lives.
 
 {{< raw >}}
 $$
@@ -106,7 +107,7 @@ $$
 
 The first row in $ T $ is a twist. It allows us to continue to apply the transition to the state even after a run end. This row represents how the [absorbing state](https://en.wikipedia.org/wiki/Absorbing_Markov_chain) $ \textcolor{red}{♥}=0 $ is stuck there.
 
-The other rows in $ T $ are mostly some offset versions of the general life change probabilities. Generally, they are the same as the corresponding transition probabilities for each state, i.e., $ P_t(\textcolor{red}{♥}=n,\Delta\textcolor{red}{♥}=m)=P(\Delta\textcolor{red}{♥}=m) $ where $ P(\Delta\textcolor{red}{♥}=m) $ is the probability of life change of $ m \in \{0,1,2,\ldots,99\} $ without considering the minimum (0) and maximum (99) numbers of lives. However, the transition probabilities for 0 lives ought to include the life change probabilities causing the number to drop below 0 and vice versa for 99 lives.
+The other rows in $ T $ are mostly some offset versions of the general life change probabilities. Generally, they are the same as the corresponding transition probabilities for each state, i.e., $ P_t(\textcolor{red}{♥}=n,\Delta\textcolor{red}{♥}=m)=P(\Delta\textcolor{red}{♥}=m) $ where $ P(\Delta\textcolor{red}{♥}=m) $ is the probability of life change of $ m \in \set{0,1,2,\ldots,99} $ without considering the minimum (0) and maximum (99) numbers of lives. However, the transition probabilities for 0 lives ought to include the life change probabilities causing the number to drop below 0 and vice versa for 99 lives.
 
 {{< figure src="/image/no_skip_smm/state_change_transition_row.png" srcset="/image/no_skip_smm/state_change_transition_row.png 1x, /image/no_skip_smm/state_change_transition_row_2x.png 2x" caption="In this example, the life change probabilities are for ranging from -3 lives to +1 life. The transition probabilties for the state having 1 life to the state having 0 lives are the sum of the -3, -2 and -1 life probability." >}}
 
@@ -164,9 +165,9 @@ For simplicity, we will use a non-parameteric bootstrap to estimate some confide
 
 To make non-parametric bootstraps compatible with the way we calculate the transition probabilities, we will simply throw away samples of levels starting with 97 to 99 lives this time. The levels limit the maximum life change. This condition is called [right censoring](https://en.wikipedia.org/wiki/Censoring_(statistics)). For example, consider a level that starts with 97 lives and ends with 99 lives. The life change is +2. When applying the life change to a level that starts with 1 life, we do not know if it should end with 3 or 4 lives. A more advanced way to calculate the transition probabilities is to incorporate all levels into a distribution, but it requires the usage of parametric bootstraps. I will leave it for a future article.
 
-It is unclear if any one of the bootstraps above will work. We will conduct a coverage study of the confidence intervals along the way. Using the same resampling technique, we can empirically test the coverages of the confidence intervals. The sample becomes a population, and this time we resample it to simulate the original sampling process. For each resample, we use the bootstraps to calculate the confidence intervals. Because we know the population, and so does the true success rate, we can count the number of instances in which the confidence intervals cover the true success rate. As a result, we can compare the cover rate with the desired rate to determine if the bootstraps work.
+It is unclear if any one of the bootstraps above will work. We will conduct a simluation study of the coverages of the confidence intervals along the way. Using the same resampling technique, we can empirically test the coverages of the confidence intervals. The sample becomes a population, and this time we resample it to simulate the original sampling process. For each resample, we use the bootstraps to calculate the confidence intervals. Because we know the population, and so does the true success rate, we can count the number of instances in which the confidence intervals cover the true success rate. As a result, we can compare the cover rate with the desired rate to determine if the bootstraps work.
 
-{{< figure src="/image/no_skip_smm/bootstrap_ci.png" srcset="/image/no_skip_smm/bootstrap_ci.png 1x, /image/no_skip_smm/bootstrap_ci_2x.png 2x" caption="An illustration of the procedure of the study of the confidence interval. The sample acts as a population. It is resampled to mimic the original sampling process. A confidence interval is calculated using the bootstrap for each set of resamples. Counting the number of confidence intervals that cover the statistic of the sample gives the actual coverage. It should be within random variations of the nominal coverage." >}}
+{{< figure src="/image/no_skip_smm/bootstrap_ci.png" srcset="/image/no_skip_smm/bootstrap_ci.png 1x, /image/no_skip_smm/bootstrap_ci_2x.png 2x" caption="An illustration of the procedure of the study of the coverages. The sample acts as a population. It is resampled to mimic the original sampling process. A confidence interval is calculated using the bootstrap for each set of resamples. Counting the number of confidence intervals that cover the statistic of the sample gives the actual coverage. It should be within random variations of the nominal coverage." >}}
 
 # Data Collection
 
@@ -210,7 +211,7 @@ There are only 12 erroneous levels out of 1058 levels. The error rate is 1.13%. 
 
 # Simulation
 
-Before proceeding to the calculation, we need to filter out levels starting with 97 to 99 lives. There are 726 remaining levels that we can use. He gained lives 52.5% of the time, lost lives 26.6% of the time, and neither 20.9% of the time. On average, he gain 0.233 lives after playing a level. The distribution is as follow:
+Before proceeding to the calculation, we need to filter out levels starting with 97 to 99 lives. There are 726 remaining levels that we can use. He gained lives 52.5% of the time, lost lives 26.6% of the time, and neither 20.9% of the time. On average, he gained 0.233 lives after playing a level. The distribution is as follow:
 
 {{< figure src="/image/no_skip_smm/pangas_life_changes.png" srcset="/image/no_skip_smm/pangas_life_changes.png 1x, /image/no_skip_smm/pangas_life_changes_2x.png 2x" caption="Panga's performance on the 726 levels." >}}
 
@@ -224,7 +225,7 @@ Now we can calculate Panga's sample success rate of beating the challenge by app
 
 We will use the bootstrap module in [Arch](https://github.com/bashtage/arch) to calculate the confidence interval. I choose it instead of SciPy because it is easier to experiment with. It provides more bootstrap methods and natively supports resuing the results when changing bootstrap methods.
 
-### Confidence Interval Study
+### Simulation Study of Coverages
 
 {{< figure src="/image/no_skip_smm/bootstrap_ci.png" srcset="/image/no_skip_smm/bootstrap_ci.png 1x, /image/no_skip_smm/bootstrap_ci_2x.png 2x" caption="Recall of the procedure of testing the coverage." >}}
 
@@ -288,7 +289,7 @@ Combining the sample probability with the bootstrap result using the BCa for 400
 
 # Conclusion
 
-Undoubtedly, beating 1000 endless expert levels without skipping in Super Mario Marker 2 is hard for most players. It is not for ones without top-notch skills and strong determination. This article has quantified the difficulty by using the theory of the Markov process, bootstrapping, and one of the best players' data. You are likely to have even more questions about this challenge other than the success rate. In the future, we will delve deeper into the details.
+Undoubtedly, beating 1000 endless expert levels without skipping in Super Mario Marker 2 is hard for most players. It is not for ones without top-notch skills and strong determination. This article has quantified the difficulty by using the theory of the Markov process, bootstrapping, and one of the best players' data. You are likely to have even more questions about this challenge other than the success rate. In the future, we will delve deeper into the details in [part 2]({{< ref "/posts/no_skip_smm_part_2" >}}).
 
 [^nintendo]: A tweet by Nintendo of America on 4 Sep, 2020. <https://twitter.com/NintendoAmerica/status/1301928016004644864>
 

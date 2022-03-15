@@ -35,6 +35,7 @@ import warnings
 import numpy as np
 from numpy.random import Generator, RandomState
 import pandas as pd
+from pyrsistent import optional
 import scipy.stats as stats
 
 from arch.typing import (
@@ -53,6 +54,7 @@ from arch.utility.exceptions import (
     kwarg_type_error,
     studentization_error,
 )
+from tqdm.auto import tqdm
 
 __all__ = [
     "IIDBootstrap",
@@ -277,6 +279,7 @@ def _loo_jackknife(
     """
     results = []
     for i in range(nobs):
+    # for i in tqdm(range(nobs), desc='Jackkife', leave=False):
         items = np.r_[0:i, i + 1 : nobs]
         args_copy = []
         for arg in args:
@@ -477,6 +480,8 @@ class IIDBootstrap(metaclass=DocStringInheritor):
         self._results: Optional[Float64Array] = None
         self._studentized_results: Optional[Float64Array] = None
         self._last_func: Optional[Callable[..., ArrayLike]] = None
+        self._bca_bias: Optional[Float64Array] = None
+        self._bca_acceleration: Optional[float] = None
         for key, value in kwargs.items():
             attr = getattr(self, key, None)
             if attr is None:
@@ -707,6 +712,7 @@ class IIDBootstrap(metaclass=DocStringInheritor):
         dictionary
         """
         for _ in range(reps):
+        # for _ in tqdm(range(reps), desc='Resamples', leave=False):
             self._index = self.update_indices()
             yield self._resample()
 
@@ -843,6 +849,8 @@ class IIDBootstrap(metaclass=DocStringInheritor):
                 and len(self._results) == reps
                 and method != studentized
                 and self._last_func is func
+                and (method not in ("debiased", "bc", "bias-corrected", "bca") or self._bca_bias is not None)
+                and (method != "bca" or self._bca_acceleration is not None)
             )
 
         if not _reuse:
@@ -853,6 +861,8 @@ class IIDBootstrap(metaclass=DocStringInheritor):
                     "not been satisfied. A new bootstrap will be used."
                 )
                 warnings.warn(warn, RuntimeWarning)
+            self._bca_bias = None
+            self._bca_acceleration = None
             self._construct_bootstrap_estimates(
                 func,
                 reps,
@@ -861,8 +871,13 @@ class IIDBootstrap(metaclass=DocStringInheritor):
                 studentize_reps=studentize_reps,  # noqa
                 sampling=sampling,
             )
+            if method in ("debiased", "bc", "bias-corrected", "bca"):
+                self._bca_bias = self._calculate_bca_bias()
+                if method == "bca":
+                    self._bca_acceleration = self._calculate_bca_acceleration(func, extra_kwargs)
 
         base, results = self._base, self._results
+        bca_bias, bca_acceleration = self._bca_bias, self._bca_acceleration
         assert results is not None
         assert base is not None
         studentized_results = self._studentized_results
@@ -901,7 +916,7 @@ class IIDBootstrap(metaclass=DocStringInheritor):
             if method in ("debiased", "bc", "bias-corrected", "bca"):
                 # bias corrected uses modified percentiles, but is
                 # otherwise identical to the percentile method
-                b = self._bca_bias()
+                b = bca_bias
                 b_is_inf = np.isinf(b).ravel()
                 b_is_not_inf = np.logical_not(b_is_inf)
                 b_copy = b.copy()
@@ -916,7 +931,7 @@ class IIDBootstrap(metaclass=DocStringInheritor):
                             "computed from datasets with "
                             "different lengths"
                         )
-                    a = self._bca_acceleration(func, extra_kwargs)
+                    a = bca_acceleration
                     a = a[b_is_not_inf]
                 else:
                     a = 0.0
@@ -969,14 +984,14 @@ class IIDBootstrap(metaclass=DocStringInheritor):
                 arg_type = type(self._kwargs[key])
                 raise TypeError(kwarg_type_error.format(key=key, arg_type=arg_type))
 
-    def _bca_bias(self) -> Float64Array:
+    def _calculate_bca_bias(self) -> Float64Array:
         assert self._results is not None
         assert self._base is not None
         p = (self._results < self._base).mean(axis=0)
         b = stats.norm.ppf(p)
         return b[:, None]
 
-    def _bca_acceleration(
+    def _calculate_bca_acceleration(
         self, func: Callable[..., ArrayLike], extra_kwags: Optional[Dict[str, Any]]
     ) -> float:
         nobs = self._num_items

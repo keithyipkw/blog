@@ -1,14 +1,9 @@
 from typing import Tuple
 import numpy as np
 
-def level_survivial(samples: np.ndarray, level_count: int) -> Tuple[np.ndarray, np.ndarray]:
-    lives, counts = np.unique(samples, return_counts=True)
-
+def level_survivial_prob(probabilities: np.ndarray, level_count: int) -> Tuple[np.ndarray, np.ndarray]:
     # for life change [min, min - 1, ... 0, 1, 2, 3]
-    life_pmf = np.zeros(4 - min(0, min(lives)))
-    for l, c in zip(lives, counts):
-        life_pmf[life_pmf.shape[0] - 4 + l] = c
-    life_pmf /= life_pmf.sum()
+    life_pmf = probabilities
     
     # calculate the transition matrix
     transition = np.zeros((100, 100))

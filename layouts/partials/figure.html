@@ -25,6 +25,12 @@ Example usage in partials (the "dict src" is used in partial "cdn-src"):
 {{- $imgSrc := partial "cdn-src" (dict "Site" $.Site "Page" . "src" .src "preset" .preset) }}
 {{- $imgClass := .imgclass | default "mx-auto leading-none" }}
 {{- $captionClass := .captionclass | default "text-center text-raven-500" }}
+{{- $srcSet := slice }}
+{{- range split .srcset "," }}
+    {{- $item := split (trim . " ") " " }}
+    {{- $img := partial "cdn-src" (dict "Site" $.Site "Page" . "src" (index $item 0) "preset" $.preset) }}
+    {{- $srcSet = $srcSet | append (printf "%s %s" $img (index $item 1)) }}
+{{ end -}}
 
 <figure{{ with .class }} class="{{ . }}"{{ end }}>
 {{ if .link -}}
@@ -33,8 +39,8 @@ Example usage in partials (the "dict src" is used in partial "cdn-src"):
 <img
 class="{{ $imgClass }}"
 src="{{ $imgSrc }}"
-{{- if .srcset }}
-srcset="{{ .srcset }}"
+{{- with $srcSet }}
+{{ printf "srcset=\"%s\"" (delimit . ",") | safeHTMLAttr }}
 {{- end }}
 {{- if or .alt .caption }}
 alt="{{ with .alt }}{{ . }}{{ else }}{{ .caption | markdownify | plainify }}{{ end }}"
