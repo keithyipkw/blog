@@ -226,6 +226,14 @@
     }
   }
 
+  & .footnote-ref::before {
+    content: '[';
+  }
+
+  & .footnote-ref::after {
+    content: ']';
+  }
+
   /* enhancements */
   & > .lead {
     @apply font-basic-sans font-light leading-snug text-2xl;
