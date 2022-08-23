@@ -1,6 +1,7 @@
 +++
 date = "2022-08-21T14:00:00Z"
 title = "Endless Expert Levels Without Skipping in SMM2 - Part 3"
+images = ["/image/no_skip_smm_3/pangas_probabilities.png"]
 tags = ["statistics"]
 mathjax = true
 +++

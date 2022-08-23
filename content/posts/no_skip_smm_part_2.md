@@ -1,5 +1,6 @@
 +++
 date = "2022-03-14T14:20:00Z"
+lastmod = "2022-08-23T13:45:00Z"
 title = "Endless Expert Levels Without Skipping in SMM2 - Part 2"
 tags = ["statistics"]
 mathjax = true
@@ -150,7 +151,7 @@ Compared to the result in part 1, the sample probabilities of beating 1000, 2000
 
 # Conclusion
 
-This time we have squeezed all information out of our precious samples. As of the time I am writing this, Panga's best run had already passed 1000 levels, ended at 1906 levels[^panga]. He is devoted to reaching 2000 levels. It means that we have more samples to reduce the uncertainty in our estimations. Besides, there are other interesting things to discuss in the next part.
+This time we have squeezed all information out of our precious samples. As of the time I am writing this, Panga's best run had already passed 1000 levels, ended at 1906 levels[^panga]. He is devoted to reaching 2000 levels. It means that we have more samples to reduce the uncertainty in our estimations. Besides, there are other interesting things to discuss in the [part 3]({{< ref "/posts/no_skip_smm_part_3" >}}).
 
 [^autoboot]: Bradley Efron & Balasubramanian Narasimhan (2020) The Automatic Construction of Bootstrap Confidence Intervals, Journal of Computational and Graphical Statistics, 29:3, 608-619, DOI: 10.1080/10618600.2020.1714633
 

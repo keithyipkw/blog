@@ -27,7 +27,8 @@
   {{- partial "structured-data" . }}
   {{- partial "bundle-js-preload" . }}
   {{- partial "google-analytics" . }}
-
+  {{ template "_internal/twitter_cards.html" . }}
+  
   {{ if .Params.mathjax }} {{- partial "mathjax" . }} {{ end }}
   
 </head>

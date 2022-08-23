@@ -9,7 +9,7 @@
   </author>
   <icon>https://keithyipkw.github.io/blog/image/brand/icon-1-1.png</icon>
   <logo>https://keithyipkw.github.io/blog/image/brand/icon-2-1.png</logo>
-  <updated>2022-08-21T14:46:44Z</updated>
+  <updated>2022-08-23T14:45:15Z</updated>
   <link rel="self" type="application/atom+xml" href="https://keithyipkw.github.io/blog/feed.atom" hreflang="en-us"/>
   <link rel="alternate" type="text/html" href="https://keithyipkw.github.io/blog/" hreflang="en-us"/>
   <entry>
@@ -440,7 +440,7 @@ alt="The normalized limiting distribution of Panga&#39;s lives $ \vec r $ after 
       <uri></uri>
     </author>
     <id>https://keithyipkw.github.io/blog/no_skip_smm_part_2/</id>
-    <updated>2022-03-14T14:20:00Z</updated>
+    <updated>2022-08-23T13:45:00Z</updated>
     <published>2022-03-14T14:20:00Z</published>
     <content type="html"><![CDATA[<p>In <a href="https://keithyipkw.github.io/blog/no_skip_smm/">part 1</a>, we learned how to use bootstraps to calculate confidence intervals of Panga's success rates of beating the various numbers of levels without skipping. We threw away the censored samples that were 31% of the samples for simplicity. This time, we will use all of them to infer the success rates and confidence intervals.</p>
 <h1 id="a-better-estimator">A Better Estimator</h1>
@@ -767,7 +767,7 @@ alt="Cumulative probability of Panga successfully beating 1000 levels.">
 
 <p>Compared to the result in part 1, the sample probabilities of beating 1000, 2000, and 3000 levels are 10% more. The upper confidence limits stay approximately the same while the bottom confidence limits shift upwards substantially. While most players struggle to beat 10 levels, Panga, being one of the best players in Super Mario Maker, only needs a few trials to have a decent chance to beat 1000 levels or even 2000 levels.</p>
 <h1 id="conclusion">Conclusion</h1>
-<p>This time we have squeezed all information out of our precious samples. As of the time I am writing this, Panga's best run had already passed 1000 levels, ended at 1906 levels<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>. He is devoted to reaching 2000 levels. It means that we have more samples to reduce the uncertainty in our estimations. Besides, there are other interesting things to discuss in the next part.</p>
+<p>This time we have squeezed all information out of our precious samples. As of the time I am writing this, Panga's best run had already passed 1000 levels, ended at 1906 levels<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>. He is devoted to reaching 2000 levels. It means that we have more samples to reduce the uncertainty in our estimations. Besides, there are other interesting things to discuss in the <a href="https://keithyipkw.github.io/blog/no_skip_smm_part_3/">part 3</a>.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>

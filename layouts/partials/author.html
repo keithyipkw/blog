@@ -4,5 +4,13 @@
   <div class="flex-shrink-0 leading-tight font-content-sans">
     <div class="block text-sm">{{ $author.name }}</div>
     <time class="text-sm text-raven-500" datetime="{{ dateFormat "2006-01-02T15:04:05Z" .Date.UTC | safeHTML }}">{{ dateFormat $dateFormat .Date.Local }}</time>
+    {{- if .Lastmod }}
+      {{- if ne .Lastmod .Date }}
+        <div class="text-sm text-raven-500">
+            Updated at 
+            <time class="text-sm text-raven-500" datetime="{{ dateFormat "2006-01-02T15:04:05Z" .Date.UTC | safeHTML }}">{{ dateFormat $dateFormat .Lastmod.Local }}</time>
+        </div>
+      {{- end }}
+    {{- end }}
   </div>
 </div>
