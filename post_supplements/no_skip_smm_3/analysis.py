@@ -11,7 +11,7 @@ import challenge
 from tqdm.auto import tqdm
 
 sns.set_theme()
-data = pd.read_csv('expert_bayesian.tsv', sep='\t')
+data = pd.read_csv('expert.tsv', sep='\t')
 sample_size = data.shape[0]
 min_lives = data['Lives'].min()
 level_count = 3000
@@ -154,6 +154,57 @@ fig.set_size_inches(10, 5)
 plt.tight_layout()
 fig.savefig('pangas_probabilities.png')
 fig.savefig('pangas_probabilities_2x.png', dpi=200)
+
+# %%
+
+x = np.repeat(np.arange(cis.shape[0])[..., np.newaxis], cis.shape[1], -1).ravel()
+
+y = cis.ravel()
+
+base = np.array([0, cis.shape[1], 1, cis.shape[1], cis.shape[1] + 1, 1])
+offset = (np.repeat(np.arange(cis.shape[0] - 1)[..., np.newaxis], cis.shape[1] - 1, 1) * cis.shape[1] + np.arange(cis.shape[1] - 1)).ravel()
+triangle = (base[np.newaxis, ...] + offset[..., np.newaxis]).reshape(-1, 3)
+
+z = np.concatenate(([0], ci_sizes))
+z = np.concatenate((z, [1], np.flip(z)))
+z = np.repeat(z[np.newaxis, ...], cis.shape[0], 0).ravel()
+
+fig, ax = plt.subplots()
+
+CAM16UCS = colour.convert([sns.color_palette()[0], ax.get_facecolor()[:3]], 'Output-Referred RGB', 'CAM16UCS')
+gradient = colour.utilities.lerp(
+    CAM16UCS[0][np.newaxis],
+    CAM16UCS[1][np.newaxis],
+    np.linspace(0, 1, ci_sizes.shape[0])[..., np.newaxis])
+RGB = colour.convert(gradient, 'CAM16UCS', 'Output-Referred RGB')
+
+cmap = ListedColormap(RGB)
+
+fig.suptitle('Panga Beating Super Mario Marker 2 No-skip Endless Expert Levels', fontsize=18)
+ax.set_xlabel('Levels')
+ax.set_ylabel('Probability')
+ax.yaxis.set_major_formatter(mtick.PercentFormatter(1))
+ax.yaxis.set_major_locator(mtick.MultipleLocator(base=0.1))
+
+cs = ax.tricontourf(x, y, triangle, 1 - z, 101, cmap=cmap, vmin=0, vmax=1)
+cbar = fig.colorbar(cs, ticks=np.linspace(0, 1, 11), pad=0.02)
+cbar.set_ticklabels([f'{i:.0%}' for i in np.linspace(0, 1, 11)])
+cbar.ax.set_ylabel('Confidence Interval')
+
+ax.plot(xs, cis[:, cis.shape[1] // 2 - 95], lw=1, color=sns.color_palette()[1], label='95% CI')
+ax.plot(xs, cis[:, cis.shape[1] // 2 + 95], lw=1, color=sns.color_palette()[1])
+cbar.ax.axhline(0.95, lw=1, c=sns.color_palette()[1])
+ax.plot(xs, cis[:, cis.shape[1] // 2 - 99], lw=1, color=sns.color_palette()[2], label='99% CI')
+ax.plot(xs, cis[:, cis.shape[1] // 2 + 99], lw=1, color=sns.color_palette()[2])
+cbar.ax.axhline(0.99, lw=1, c=sns.color_palette()[2])
+
+ax.set_xlim(0, 3000)
+
+fig.set_size_inches(10, 5)
+plt.legend()
+plt.tight_layout()
+fig.savefig('pangas_probabilities_hybrid.png')
+fig.savefig('pangas_probabilities_hybrid_2x.png', dpi=200)
 
 # %%
 
