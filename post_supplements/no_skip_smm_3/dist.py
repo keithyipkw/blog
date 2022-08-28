@@ -6,14 +6,69 @@ from matplotlib import container
 import matplotlib.ticker as mtick
 import pandas as pd
 import statsmodels.stats.proportion as proportion
+import challenge
 
 sns.set_theme()
 data = pd.read_csv('expert.tsv', sep='\t')
+
+sample_probabilities = challenge.life_change_prob(data)
+
 data.loc[data['Starting Lives'] < 97, 'Starting Lives'] = '< 97'
 
 # %%
 
 %matplotlib widget
+
+t = 0.0005
+s = 3
+y_scale_functions = [lambda x: np.minimum(x, t) * s + x, lambda x: x]
+
+fig, ax = plt.subplots()
+fig.suptitle("Panga's Uncensored Life Change After Beating a Level", fontsize=18)
+ax.set_yscale('function', functions=y_scale_functions)
+lives = np.unique(data['Lives'])
+break_index = np.argmax(lives >= -20)
+xs = np.arange(0, lives.shape[0] + 1) + 0.5
+x_labels = lives.tolist()
+x_labels.insert(break_index, "")
+starting_lives = ['< 97', 97, 98, 99]
+shrink = 0.8
+width = shrink / len(starting_lives)
+d = dict()
+for i in range(sample_probabilities.shape[0]):
+    if sample_probabilities[i] > 0:
+        d[i - 99] = sample_probabilities[i]
+ys = []
+labels = []
+for l in lives:
+    y = d[l]
+    if y > 0:
+        labels.append(f'{y * 100:0.4f}%')
+    else:
+        labels.append('')
+    ys.append(y)
+ys.insert(break_index, 0)
+labels.insert(break_index, '')
+c = ax.bar(xs, ys)
+ax.bar_label(c, labels=labels, label_type='edge', color=sns.color_palette()[0], fontsize=10, rotation=90, position=(1, 2))
+ax.set_xticks(np.arange(0, lives.shape[0] + 1))
+ax.set_xticklabels([])
+ax.grid(axis='x', color='w', alpha=0.5)
+ax.set_xticks(xs, minor=True)
+ax.set_xticklabels(x_labels, minor=True)
+ax.set_xlim(0, lives.shape[0] + 1)
+ax.set_ylim(0, ax.get_ylim()[1] + 0.05)
+ax.set_xlabel('Lives')
+ax.set_ylabel('Proportion')
+ax.yaxis.set_major_formatter(mtick.PercentFormatter(1))
+    
+fig.set_size_inches(10, 5)
+plt.tight_layout()
+
+fig.savefig('life_change_uncensored_pmf.png', dpi=100)
+fig.savefig('life_change_uncensored_pmf_2x.png', dpi=200)
+
+# %%
 
 t = 0.0005
 s = 3
