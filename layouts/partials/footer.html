@@ -3,8 +3,9 @@
     {{- $currentPage := . }}
     <nav class="flex items-center justify-center">
       {{- range (.Site.Menus.foot) }}
-      {{- $isCurrent := (eq (trim $currentPage.RelPermalink "/") (trim .URL "/")) }}
-      <a class="ml-3 first:ml-0 text-sm{{ if $isCurrent }} text-gray-400 {{ else }} text-gray-600 hover:text-gray-800{{ end }}"{{ if not $isCurrent }} href="{{ .URL | relLangURL }}"{{ end }}>{{ .Name }}</a>
+      {{- $url := .URL | relLangURL }}
+      {{- $isCurrent := (eq (trim $currentPage.RelPermalink "/") (trim $url "/")) }}
+      <a class="ml-3 first:ml-0 text-sm{{ if $isCurrent }} text-gray-400 {{ else }} text-gray-600 hover:text-gray-800{{ end }}"{{ if not $isCurrent }} href="{{ $url }}"{{ end }}>{{ .Name }}</a>
       {{- end }}
     </nav>
 

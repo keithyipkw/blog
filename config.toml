@@ -125,12 +125,12 @@ tabWidth = 2
 # lineNumbersInTable = false
 
 [[menu.foot]]
-url = "/about/"
+url = "about/"
 name = "About"
 weight = 2
 
 [[menu.foot]]
-url = "/copyright/"
+url = "copyright/"
 name = "Copyright"
 weight = 3
 
