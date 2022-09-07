@@ -87,6 +87,9 @@ page = "w_auto,dpr_auto,c_scale,f_auto,q_auto/"
 feature = "w_auto,dpr_auto,c_scale,f_auto,q_auto/"
 summary = "w_auto,dpr_auto,c_scale,f_auto,q_auto/"
 
+[taxonomies]
+tag = 'tags'
+
 [outputs]
 home = ["HTML", "ATOM"]
 section = ["HTML"]
